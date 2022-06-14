@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bibank - Reportes Mora Prendarios</title>
+    <meta charset="iso-8859-1" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
+    <link rel="stylesheet" href="styles.css">
+    <script src="jquery.js"></script>
+    <link type="text/css" rel="stylesheet" href="jsgrid.min.css" />
+    <link type="text/css" rel="stylesheet" href="jsgrid-theme.min.css" />
+    <script type="text/javascript" src="jsgrid.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <!-- Milligram CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+    <script type="text/javascript" src="script2.js"></script>
+<script src="https://code.highcharts.com/stock/highstock.js"></script>
+<script src="https://code.highcharts.com/stock/modules/data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/stock/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/stock/modules/accessibility.js"></script>
+</head>
+<body>
+    <!-- Tab links -->
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'Datos')" id="defaultOpen">Carga de Datos</button>
+        <button class="tablinks" onclick="openCity(event, 'Graficos')">Gráficos</button>
+		<button class="tablinks" onclick="openCity(event, 'Reportes')">Reportes</button>
+        <button class="tablinks" onclick="openCity(event, 'Tablas')">Tablas</button>
+    </div>
+    <div id="Datos" class="tabcontent">
+        1. Seleccione un archivo en formato .csv &nbsp;&nbsp;<button onclick="document.querySelector('input').click()">Seleccione el archivo</button>
+        <input style="visibility: collapse; width: 0px;" type="file" onchange="upload(this.files[0])"></br>
+
+        <div id="divFiltro" style="display:none;">
+            2. Seleccione los Filtros deseados
+            <div style="border: 1px solid #ccc; margin-left: 10px; width: 850px; height: 220px;padding:10px;">
+                <div style="float:left; margin-left:15px; width:40%;">
+                    <input id="txtNroCliente" list="dlNroCliente" placeholder="Nro de Cliente" />
+                    <datalist id="dlNroCliente"></datalist>
+                    <input type="text" id="txtApellido" list="dlApellido" placeholder="Apellido" />
+                    <datalist id="dlApellido"></datalist></br>
+                    <select id="dlAnio" placeholder="Año">
+						<option>2022</option>
+					</select>
+					<input type="text" id="txtOperador" list="dlOperador" placeholder="Operador" />
+                    <datalist id="dlOperador"></datalist></br>
+                </div>
+                <div style="float:left; margin-left:15px;width:40%;">
+                    <input type="number" id="txtDias1" placeholder="Dias Mora" style="width: 125px;" /><input type="number" placeholder="Hasta" id="txtDias2" style="width: 125px; margin-left:10px;" /></br>
+                    <input type="number" id="txtMora1" placeholder="Monto Mora" style="width: 125px;" /><input type="number" placeholder="Hasta" id="txtMora2" style="width: 125px; margin-left:10px;" /></br>
+					<select id="dlMes" placeholder="Mes">
+						<option value="1">Enero</option>
+						<option value="2">Febrero</option>
+						<option value="3">Marzo</option>
+						<option value="4">Abril</option>
+						<option value="5">Mayo</option>
+						<option value="6">Junio</option>
+						<option value="7">Julio</option>
+						<option value="8">Agosto</option>
+						<option value="9">Septiembre</option>
+						<option value="10">Octubre</option>
+						<option value="11">Noviembre</option>
+						<option value="12">Diciembre</option>
+					</select>
+                    <button onclick="visualizar()">Visualizar Data</input>
+                </div>
+            </div>
+			<div style="margin: 10px; font-size:10pt;" id="jsGrid"></div>
+        </div>
+    </div>
+	<div id="Graficos" class="tabcontent">
+		<figure class="highcharts-figure">
+		<button type='button' class='collapsible' onclick='collapse(event)'>Gráficos</button>
+		<div class='content'>
+			<button type='button' class='collapsible' onclick='collapse(event)'>Gráficos de Analistas</button>
+			<div class='content'>
+				<div id="container4" style="padding: 5px;"></div>
+				<div id="container5"></div>
+			</div>
+			<button type='button' class='collapsible' onclick='collapse(event)'>Gráficos de Deuda</button>
+			<div class='content'>
+				<div id="container6"></div>
+				<div id="container8"></div>
+			</div>
+			<button type='button' class='collapsible' onclick='collapse(event)'>Gráficos por Cantidad</button>
+			<div class='content'>
+				<div id="container7"></div>
+				<div id="container9"></div>
+			</div>
+			<button type='button' class='collapsible' onclick='collapse(event)'>Legales</button>
+			<div class='content'>
+				<div id="container10"></div>
+				<div id="container11"></div>
+			</div>
+		</div>
+			</figure>
+	</div>
+    <div id="Reportes" class="tabcontent">
+    </div>
+    <div id="Parametria" class="tabcontent" style="height: 200px;">
+        <div style="float:left; margin-left:15px; width:30%;">
+			Máximo Deudores Varios
+			<input id="txtDeudoresVariosMax" placeholder="Max. Deudores Varios" type="number"/> 
+			<button onclick="aplicarParams()">Aplicar Parámetros</input>
+		</div>
+    </div>
+	<div id="Tablas" class="tabcontent">
+    </div>
+    <div id="output"></div>
+    <div id="response"></div>
+
+</body>
+</html>
